@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FlightBooking {
-    private  boolean[] hasBooked = new boolean[50];
+    private static boolean[] hasBooked = new boolean[50];
     private static List<Passenger> bookedPassengers = new ArrayList<>();
 
     public void bookFlight(int reservationID) {
@@ -50,8 +51,10 @@ public class FlightBooking {
             return seatNumber;
     }
 
-    public boolean hasBooked(int seatNumber){
+    public static boolean hasBooked(int seatNumber){
+        if(seatNumber > 0)
         return hasBooked[seatNumber - 1];
+        else return false;
     }
 
     public int getTotalNumberOfFirstClassSeatsBooked() {
@@ -107,5 +110,8 @@ public class FlightBooking {
         int seatNumber = allocateSeatBasedOnSeatType(passenger);
         passenger.assignSeatNumber(seatNumber);
 
+    }
+    public static void emptyHasBookedArray(){
+        Arrays.fill(hasBooked, false);
     }
 }
