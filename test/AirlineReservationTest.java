@@ -10,6 +10,8 @@ public class AirlineReservationTest {
     Airline airline;
     FlightReservation reservation;
     FlightBooking flightBooking;
+    Payment payment;
+    private BoardingPass boardingPass;
 
     @BeforeEach
     void setUp() {
@@ -17,6 +19,9 @@ public class AirlineReservationTest {
         airline = new Airline("Dana Airline", aeroplane);
         reservation = new FlightReservation();
         flightBooking = new FlightBooking();
+        payment = new Payment();
+        boardingPass = new BoardingPass();
+
     }
 
     @AfterEach
@@ -25,7 +30,10 @@ public class AirlineReservationTest {
         airline = null;
         reservation = null;
         flightBooking = null;
+        payment = null;
+        boardingPass = null;
         FlightReservation.emptyReservedPassengerList();
+        FlightBooking.emptyHasBookedArray();
     }
 
     @Test
@@ -276,6 +284,145 @@ public class AirlineReservationTest {
 
         assertEquals(10, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
     }
+
+    @Test
+    void testThatAirlineCanSetThePriceOfFirstClassBookingPass(){
+        airline.setPriceOfFirstClass(1000);
+        assertEquals(1000, airline.getPriceOfFirstClass());
+    }
+    @Test
+    void testThatAirlineCanSetThePriceOfBusinessClassBookingPass(){
+        airline.setPriceOfBusinessClass(700);
+        assertEquals(700, airline.getPriceOfBusinessClass());
+    }
+    @Test
+    void testThatAirlineCanSetThePriceOfEconomyClassBookingPass(){
+        airline.setPriceOfEconomyClass(500);
+        assertEquals(500, airline.getPriceOfEconomyClass());
+    }
+
+    @Test
+    void testThatPassengerCanMakePaymentForFirstClassBookingPass(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.FIRSTCLASS);
+        assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
+        assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfFirstClass(1000);
+        assertEquals(1000, Airline.getPriceOfFirstClass());
+
+        payment.makePayment(passenger, 1000, SeatClass.FIRSTCLASS, PaymentType.MASTERCARD);
+
+        assertTrue(passenger.hasPaid());
+        assertEquals(PaymentType.MASTERCARD, passenger.getPaymentType());
+    }
+
+    @Test
+    void testThatPassengerCanMakePaymentForBusinessClassBookingPass(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.BUSINESS);
+        assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
+        assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfBusinessClass(700);
+        assertEquals(700, Airline.getPriceOfBusinessClass());
+
+        payment.makePayment(passenger, 700, SeatClass.BUSINESS, PaymentType.CASH);
+
+        assertTrue(passenger.hasPaid());
+        assertEquals(PaymentType.CASH, passenger.getPaymentType());
+    }
+    @Test
+    void testThatPassengerCanMakePaymentForEconomyClassBookingPass(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
+        assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
+        assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfEconomyClass(500);
+        assertEquals(500, Airline.getPriceOfEconomyClass());
+
+        payment.makePayment(passenger, 500, SeatClass.ECONOMY, PaymentType.POS);
+
+        assertTrue(passenger.hasPaid());
+        assertEquals(PaymentType.POS, passenger.getPaymentType());
+    }
+    @Test
+    void testThatPassengerCannotMakePaymentWithoutBookingFlight(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+
+        airline.setPriceOfEconomyClass(500);
+        assertEquals(500, Airline.getPriceOfEconomyClass());
+
+        payment.makePayment(passenger, 500, SeatClass.ECONOMY, PaymentType.POS);
+
+        assertFalse(passenger.hasPaid());
+        assertEquals(PaymentType.POS, passenger.getPaymentType());
+    }
+    @Test
+    void testThatPassengerCannotMakePaymentForFirstClassWithAmountLessThanTheSetPrice(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.FIRSTCLASS);
+        assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
+        assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfFirstClass(1000);
+        assertEquals(1000, Airline.getPriceOfFirstClass());
+
+        payment.makePayment(passenger, 500, SeatClass.FIRSTCLASS, PaymentType.MASTERCARD);
+
+        assertFalse(passenger.hasPaid());
+    }
+    @Test
+    void testThatPassengerCannotMakePaymentForBusinessClassWithAmountLessThanTheSetPrice(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.BUSINESS);
+        assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
+        assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfBusinessClass(700);
+        assertEquals(700, Airline.getPriceOfBusinessClass());
+
+        payment.makePayment(passenger, 600, SeatClass.BUSINESS, PaymentType.MASTERCARD);
+
+        assertFalse(passenger.hasPaid());
+    }
+    @Test
+    void testThatPassengerCannotMakePaymentForEconomyClassWithAmountLessThanTheSetPrice(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
+        assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
+        assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfEconomyClass(500);
+        assertEquals(500, Airline.getPriceOfEconomyClass());
+
+        payment.makePayment(passenger, 200, SeatClass.ECONOMY, PaymentType.MASTERCARD);
+
+        assertFalse(passenger.hasPaid());
+    }
+    @Test
+    void testThatBoardingPassCanBeGeneratedWithPassengerDetails(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
+        assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
+        assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfEconomyClass(500);
+        assertEquals(500, Airline.getPriceOfEconomyClass());
+
+        payment.makePayment(passenger, 500, SeatClass.ECONOMY, PaymentType.MASTERCARD);
+        assertTrue(passenger.hasPaid());
+
+       assertEquals("""
+               Full Name = 'Olu Jola
+               Phone Number = 0000
+               Email Address = bina@jolo.com
+               Passenger Seat Class = ECONOMY
+               Seat Number = 26
+               Payment Type = MASTERCARD""", boardingPass.displayBoardingPassInfo(passenger));
+    }
+
 }
 
 
