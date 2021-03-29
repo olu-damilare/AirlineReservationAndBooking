@@ -1,32 +1,29 @@
 public class Passenger {
 
-
     private final String name;
-    private int passengerId;
     private final String phoneNumber;
     private String emailAddress;
     private SeatClass passengerSeatType;
-    private static int passengerIDCounter;
     private int seatNumber;
+    private boolean hasPaid;
+    private PaymentType paymentType;
 
 
     @Override
     public String toString() {
-        return "Passenger{" + '\n' +
-                "name = '" + name + '\n' +
-                "Passenger Id = " + passengerId + '\n' +
-                "Phone Number = '" + phoneNumber + '\n' +
-                "Email Address = '" + emailAddress + '\n' +
-                "Passenger Seat Class=" + passengerSeatType + '\n' +
-                ", seatNumber = " + seatNumber + '\n' +
-                '}';
+        return
+                "Full Name = '" + name + '\n' +
+                "Phone Number = " + phoneNumber + '\n' +
+                "Email Address = " + emailAddress + '\n' +
+                "Passenger Seat Class = " + passengerSeatType + '\n' +
+                "Seat Number = " + seatNumber + '\n' +
+                "Payment Type = " + paymentType;
     }
 
     public Passenger(String name, String phoneNumber, String emailAddress) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
-       passengerId = ++passengerIDCounter;
     }
 
     public String getEmailAddress() {
@@ -42,9 +39,6 @@ public class Passenger {
         return passengerSeatType;
     }
 
-    public int getPassengerId() {
-        return passengerId;
-    }
 
     public void assignSeatNumber(int seatNumber) {
         this.seatNumber = seatNumber;
@@ -53,4 +47,20 @@ public class Passenger {
     public int getSeatNumber() {
         return seatNumber;
     }
+
+    public void payment(boolean paymentStatus) {
+        if(FlightBooking.hasBooked(seatNumber))
+            hasPaid = paymentStatus;
+    }
+    public boolean hasPaid(){
+        return hasPaid;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+    public PaymentType getPaymentType(){
+        return paymentType;
+    }
+
 }
