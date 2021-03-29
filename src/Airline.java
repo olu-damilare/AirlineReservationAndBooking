@@ -4,6 +4,9 @@ public class Airline {
     private final String airlineName;
     private final ArrayList<Aeroplane> fleet = new ArrayList<>();
     private ArrayList<FlightDetails> flightDetails = new ArrayList<>();
+    private static double firstClassPrice;
+    private static double businessClassPrice;
+    private static double economyClassPrice;
 
     public Airline(String airlineName, Aeroplane aeroplane) {
         this.airlineName = airlineName;
@@ -57,4 +60,27 @@ public class Airline {
       flightDetails.get(flightNumber - 1).recordNumberOfPassengers(totalNumberOfPassengers);
     }
 
+    public void setPriceOfFirstClass(double price) {
+        firstClassPrice = price;
+    }
+
+    public static double getPriceOfFirstClass() {
+        return firstClassPrice;
+    }
+
+    public static double getPriceOfBusinessClass() {
+        return businessClassPrice;
+    }
+
+    public void setPriceOfBusinessClass(double price) {
+        businessClassPrice = price;
+    }
+
+    public void setPriceOfEconomyClass(double price) {
+        economyClassPrice = price;
+    }
+
+    public static double getPriceOfEconomyClass() {
+        return economyClassPrice;
+    }
 }
