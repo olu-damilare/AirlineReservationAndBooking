@@ -407,13 +407,12 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfEconomyClass(500);
         assertEquals(500, Airline.getPriceOfEconomyClass());
 
         payment.makePayment(passenger, 500, SeatClass.ECONOMY, PaymentType.MASTERCARD);
         assertTrue(passenger.hasPaid());
-
        assertEquals("""
                Full Name = 'Olu Jola
                Phone Number = 0000
