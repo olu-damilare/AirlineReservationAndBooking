@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Airline {
     private final String airlineName;
     private final ArrayList<Aeroplane> fleet = new ArrayList<>();
-    private ArrayList<FlightDetails> flightDetails = new ArrayList<>();
+    private final ArrayList<FlightDetails> flightDetails = new ArrayList<>();
     private static double firstClassPrice;
     private static double businessClassPrice;
     private static double economyClassPrice;
@@ -35,8 +35,7 @@ public class Airline {
     }
 
 
-    public void assignPilot(String name, String phoneNumber, String emailAddress, String staffID, int flightNumber){
-        Admin pilot = new Admin(name, phoneNumber, emailAddress, staffID);
+    public void assignPilot(Admin pilot, int flightNumber){
         flightDetails.get(flightNumber - 1).assignFlightNumber(flightNumber);
         flightDetails.get(flightNumber - 1).assignPilot(pilot);
     }
@@ -45,13 +44,18 @@ public class Airline {
         flightDetails.get(flightNumber - 1).assignFlightNumber(flightNumber);
         flightDetails.get(flightNumber - 1).assignHost(host);
     }
-
+    public int generateFlightNumber(){
+        FlightDetails flightDetail = new FlightDetails();
+        flightDetails.add(flightDetail);
+        return flightDetails.size();
+    }
     public String generateFlightDetails(int flightNumber){
         flightDetails.get(flightNumber - 1).assignFlightNumber(flightNumber);
         return flightDetails.get(flightNumber - 1).toString();
     }
     public void boardPassenger(Passenger passenger, int flightNumber, int seatNumber){
         flightDetails.get(flightNumber - 1).assignFlightNumber(flightNumber);
+        flightDetails.get(flightNumber - 1).recordPassengerInfo(passenger);
         fleet.get(flightNumber - 1).boardPassenger(passenger, seatNumber);
         flightDetails.get(flightNumber - 1).recordPassengerInformation(passenger);
     }
