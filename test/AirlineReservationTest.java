@@ -58,17 +58,6 @@ public class AirlineReservationTest {
         assertEquals(50, aeroplane.getNumberOfSeatsInPlane());
     }
 
-    @Test
-    void testThatAirlineHasFlightDetails() {
-        FlightDetails flightDetails = new FlightDetails();
-        assertEquals("FlightDetails{\n" +
-                "Number Of Passengers = 0\n" +
-                "Host Details = null\n" +
-                "Pilot Details = null\n" +
-                "Passenger Info = null\n" +
-                "Flight  Number = 0\n" +
-                "}", flightDetails.toString());
-    }
 
     @Test
     void testThatPassengerCanReserveFirstClassSeat() {
@@ -122,8 +111,8 @@ public class AirlineReservationTest {
         reservation.reserveFlight(passenger, SeatClass.BUSINESS);
         reservation.reserveFlight(passenger1, SeatClass.BUSINESS);
 
-        assertTrue(reservation.hasReserved(passenger));
-        assertTrue(reservation.hasReserved(passenger1));
+        assertTrue(FlightReservation.hasReserved(passenger));
+        assertTrue(FlightReservation.hasReserved(passenger1));
         assertEquals(SeatClass.BUSINESS, reservation.getPassengerReservedSeatType(passenger));
         assertEquals(SeatClass.BUSINESS, reservation.getPassengerReservedSeatType(passenger1));
 
@@ -171,7 +160,7 @@ public class AirlineReservationTest {
         assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
         assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
 
-        assertTrue(flightBooking.hasBooked(reservation.getReservationID(passenger)));
+        assertTrue(FlightBooking.hasBooked(reservation.getReservationID(passenger)));
 
     }
 
@@ -185,7 +174,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(reservation.getReservationID(passenger));
         assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
         assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
 
     }
 
@@ -199,7 +188,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(reservation.getReservationID(passenger));
 
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
 
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
 
@@ -215,7 +204,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(reservation.getReservationID(passenger));
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
 
         flightBooking.bookFlight(reservation.getReservationID(passenger));
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
@@ -230,7 +219,7 @@ public class AirlineReservationTest {
 
         assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
         assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
     }
 
     @Test
@@ -241,7 +230,7 @@ public class AirlineReservationTest {
 
         assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
         assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
     }
 
     @Test
@@ -252,7 +241,7 @@ public class AirlineReservationTest {
 
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
     }
 
     @Test
@@ -288,17 +277,17 @@ public class AirlineReservationTest {
     @Test
     void testThatAirlineCanSetThePriceOfFirstClassBookingPass(){
         airline.setPriceOfFirstClass(1000);
-        assertEquals(1000, airline.getPriceOfFirstClass());
+        assertEquals(1000, Airline.getPriceOfFirstClass());
     }
     @Test
     void testThatAirlineCanSetThePriceOfBusinessClassBookingPass(){
         airline.setPriceOfBusinessClass(700);
-        assertEquals(700, airline.getPriceOfBusinessClass());
+        assertEquals(700, Airline.getPriceOfBusinessClass());
     }
     @Test
     void testThatAirlineCanSetThePriceOfEconomyClassBookingPass(){
         airline.setPriceOfEconomyClass(500);
-        assertEquals(500, airline.getPriceOfEconomyClass());
+        assertEquals(500, Airline.getPriceOfEconomyClass());
     }
 
     @Test
@@ -307,7 +296,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.FIRSTCLASS);
         assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
         assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfFirstClass(1000);
         assertEquals(1000, Airline.getPriceOfFirstClass());
 
@@ -323,7 +312,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.BUSINESS);
         assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
         assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfBusinessClass(700);
         assertEquals(700, Airline.getPriceOfBusinessClass());
 
@@ -338,7 +327,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfEconomyClass(500);
         assertEquals(500, Airline.getPriceOfEconomyClass());
 
@@ -365,7 +354,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.FIRSTCLASS);
         assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
         assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfFirstClass(1000);
         assertEquals(1000, Airline.getPriceOfFirstClass());
 
@@ -379,7 +368,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.BUSINESS);
         assertEquals(1, flightBooking.getTotalNumberOfBusinessClassSeatsBooked());
         assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfBusinessClass(700);
         assertEquals(700, Airline.getPriceOfBusinessClass());
 
@@ -393,7 +382,7 @@ public class AirlineReservationTest {
         flightBooking.bookFlight(passenger, SeatClass.ECONOMY);
         assertEquals(1, flightBooking.getTotalNumberOfEconomyClassSeatsBooked());
         assertEquals(SeatClass.ECONOMY, FlightBooking.getPassengerBookedSeatType(passenger));
-        assertTrue(flightBooking.hasBooked(passenger.getSeatNumber()));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
         airline.setPriceOfEconomyClass(500);
         assertEquals(500, Airline.getPriceOfEconomyClass());
 
@@ -414,12 +403,85 @@ public class AirlineReservationTest {
         payment.makePayment(passenger, 500, SeatClass.ECONOMY, PaymentType.MASTERCARD);
         assertTrue(passenger.hasPaid());
        assertEquals("""
-               Full Name = 'Olu Jola
+               Full Name = Olu Jola
                Phone Number = 0000
                Email Address = bina@jolo.com
                Passenger Seat Class = ECONOMY
                Seat Number = 26
-               Payment Type = MASTERCARD""", boardingPass.displayBoardingPassInfo(passenger));
+               Payment Type = MASTERCARD
+               
+               """, boardingPass.displayBoardingPassInfo(passenger));
+    }
+
+    @Test
+    void testThatAirlineCanGenerateFlightDetails(){
+        Passenger passenger = new Passenger("Olu Jola", "0000", "bina@jolo.com");
+        flightBooking.bookFlight(passenger, SeatClass.FIRSTCLASS);
+        assertEquals(1, flightBooking.getTotalNumberOfFirstClassSeatsBooked());
+        assertEquals(SeatClass.FIRSTCLASS, FlightBooking.getPassengerBookedSeatType(passenger));
+        assertTrue(FlightBooking.hasBooked(passenger.getSeatNumber()));
+        airline.setPriceOfFirstClass(1000);
+        assertEquals(1000, Airline.getPriceOfFirstClass());
+
+        payment.makePayment(passenger, 1000, SeatClass.FIRSTCLASS, PaymentType.MASTERCARD);
+        assertTrue(passenger.hasPaid());
+        assertEquals(PaymentType.MASTERCARD, passenger.getPaymentType());
+
+        Passenger passenger1 = new Passenger("Ben CHi", "1235660", "ba@jasiilo.com");
+        flightBooking.bookFlight(passenger1, SeatClass.BUSINESS);
+        assertEquals(SeatClass.BUSINESS, FlightBooking.getPassengerBookedSeatType(passenger1));
+        assertTrue(FlightBooking.hasBooked(passenger1.getSeatNumber()));
+        airline.setPriceOfBusinessClass(700);
+        assertEquals(700, Airline.getPriceOfBusinessClass());
+
+        payment.makePayment(passenger1, 700, SeatClass.BUSINESS, PaymentType.VISA);
+        assertTrue(passenger.hasPaid());
+        assertEquals(PaymentType.VISA, passenger1.getPaymentType());
+
+        int flightNumber = airline.generateFlightNumber();
+        Admin pilot = new Admin("Joe Bloggs", "08012345678", "dolo@gmail.com", "12345");
+        airline.assignPilot(pilot, flightNumber);
+        Admin host = new Admin("Joe Bost", "08012345678", "dolo@gmail.com", "12345");
+        airline.assignHost(host, flightNumber);
+
+        int seatNumber = passenger.getSeatNumber();
+        airline.boardPassenger(passenger, flightNumber, seatNumber);
+        airline.boardPassenger(passenger1, flightNumber, seatNumber);
+        airline.recordTotalNumberOfPassengers(1);
+
+        assertEquals("""
+                FlightDetails:
+                Number Of Passengers = 1
+                                
+                Host Details = Name = Joe Bost
+                Phone Number = 08012345678
+                Email Address = dolo@gmail.com
+                Staff ID = 12345
+                                
+                Pilot Details = Name = Joe Bloggs
+                Phone Number = 08012345678
+                Email Address = dolo@gmail.com
+                Staff ID = 12345
+                                
+                Flight Number = 1
+                                
+                Passengers Information:
+                                
+                Full Name = Olu Jola
+                Phone Number = 0000
+                Email Address = bina@jolo.com
+                Passenger Seat Class = FIRSTCLASS
+                Seat Number = 1
+                Payment Type = MASTERCARD
+                                
+                Full Name = Ben CHi
+                Phone Number = 1235660
+                Email Address = ba@jasiilo.com
+                Passenger Seat Class = BUSINESS
+                Seat Number = 11
+                Payment Type = VISA
+                
+                """, airline.generateFlightDetails(1));
     }
 
 }
