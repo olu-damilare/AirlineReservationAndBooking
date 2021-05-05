@@ -13,10 +13,9 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin{" +
-                "name='" + name + '\n' +
-                "phoneNumber='" + phoneNumber + '\n' +
-                ",emailAddress='" + emailAddress + '\n' +
-                '}';
+        return  "Name = " + name + '\n' +
+                "Phone Number = " + phoneNumber + '\n' +
+                "Email Address = " + emailAddress + '\n' +
+                "Staff ID = " + staffID;
     }
 }
