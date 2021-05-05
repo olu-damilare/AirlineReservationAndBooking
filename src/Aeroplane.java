@@ -7,6 +7,7 @@ public class Aeroplane {
 
     public Aeroplane(String name){
         this.name = name;
+        assignSeatNumbers();
     }
 
     @Override
@@ -17,8 +18,8 @@ public class Aeroplane {
     public int getNumberOfSeatsInPlane() {
         assignSeatNumbers();
         int numberOfSeats = 0;
-        for (int i = 0; i < seats.length; i++) {
-            if(seats[i] != null)
+        for (Seat seat : seats) {
+            if (seat != null)
                 numberOfSeats++;
         }
         return numberOfSeats;
