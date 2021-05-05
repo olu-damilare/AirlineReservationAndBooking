@@ -12,12 +12,12 @@ public class Passenger {
     @Override
     public String toString() {
         return
-                "Full Name = '" + name + '\n' +
+                "Full Name = " + name + '\n' +
                 "Phone Number = " + phoneNumber + '\n' +
                 "Email Address = " + emailAddress + '\n' +
                 "Passenger Seat Class = " + passengerSeatType + '\n' +
                 "Seat Number = " + seatNumber + '\n' +
-                "Payment Type = " + paymentType;
+                "Payment Type = " + paymentType + "\n\n";
     }
 
     public Passenger(String name, String phoneNumber, String emailAddress) {
